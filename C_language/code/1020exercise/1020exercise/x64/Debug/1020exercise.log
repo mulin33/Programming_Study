@@ -1,0 +1,5 @@
+﻿  1028-day6.c
+e:\mu\postgraduate0\c_language\code\1020exercise\1020exercise\1028-day6.c(103): warning C4013: “system”未定义；假设外部返回 int
+e:\mu\postgraduate0\c_language\code\1020exercise\1020exercise\1028-day6.c(90): warning C4047: “初始化”:“student *”与“student (*)[2]”的间接级别不同
+e:\mu\postgraduate0\c_language\code\1020exercise\1020exercise\1028-day6.c(91): warning C4047: “初始化”:“stuP”与“student (*)[2]”的间接级别不同
+  1020exercise.vcxproj -> E:\Mu\postgraduate0\C_language\code\1020exercise\x64\Debug\1020exercise.exe
