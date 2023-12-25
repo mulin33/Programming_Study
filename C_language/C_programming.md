@@ -199,7 +199,7 @@ void func1(int array[], int size)
 >   	printf("数组第一行第一列元素为%d\n", *arrayP[0]);	//1
 >   	arrayP++;
 >   	printf("数组第二行第一列元素为%d\n", *arrayP[0]);	//4
->             
+>               
 >   	system("pause");
 >   	return 0;
 >   }
@@ -447,6 +447,10 @@ fp_array[n](a,b);	//使用
 <img src="https://raw.githubusercontent.com/mulin33/ImageHost/main/blogImg/image-20231025212704311.png" alt="image-20231025212704311" style="zoom:67%;" />
 
 #### 2.1.2 四种存储类型在内存上的分配
+
+* ***const***修饰全局变量存放在数据段，***const***修饰局部变量存放在栈
+* C/C++在程序(exe)运行前分为全局区和代码区
+* 代码区特点是共享和只读
 
 ![C程序内存分配](https://raw.githubusercontent.com/mulin33/ImageHost/main/blogImg/image-20231024221508374.png)
 
