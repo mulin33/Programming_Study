@@ -45,11 +45,13 @@
 
 ## 2 命令
 
+### 2.1 符号
+
 格式：`command [-options] [parameter]`
 
 home目录：每一个用户在Linux的专属目录，其路径是`/home/用户名`
 
-根目录查看:other locations->Computer
+根目录查看:other locations->Computer   
 
 管道符`|`：将管道符左边命令的结果，作为右边命令的输入
 
@@ -58,6 +60,10 @@ home目录：每一个用户在Linux的专属目录，其路径是`/home/用户�
 重定向符`>`：将左侧命令的结果，覆盖写入到符号右侧指定的文件中
 
 重定向符`>>`：将左侧命令的结果，追加写入到符号右侧指定的文件中
+
+飘号：不是单引号，被飘号包围的内容会作为命令执行，如`pwd`
+
+### 2.2 命令
 
 1. **ls** -alh [路径]
 2. **pwd**
@@ -70,13 +76,31 @@ home目录：每一个用户在Linux的专属目录，其路径是`/home/用户�
 9. **rm**  [-r 文件夹删除  -f 强制删除,用于root用户]  参数1  参数2  ......(支持通配符*)
 10. **which**  要查找的命令(如cat等)
 11. **find**  起始路径  -name  "文件名"   or    **find**  起始路径  -size  +/-n[k/M/G]（如+1G 表示找到超过1G的文件）
-12. **grep**  [-n匹配行号]  "关键字" 文件路径
+12. **grep**  [-n匹配行号]  "关键字" 文件路径  （使用案例参照 [端口](###4.4 端口)）
 13. **wc**  [-c字节数 -m字符数 -l行数 -w单词数]  文件路径(可通过管道符输入)
-14. **echo**
+14. **echo** "输出内容"   （用法：`echo "文字" >> 文件路径` 可实现把文字附加到文件里面）
+15. **tail**  [-f 持续跟踪文件 -num 查看尾部多少行]  filename   (`tail -f filename` 可用于查看动态日志)
+16. **man**  [命令]     （manual查看命令使用手册）
+
+### 2.3 快捷键
+
+ctrl+c：强制终止
+
+ctrl+d：账户退出，退出特定程序(如python)专属页面
+
+ctrl+a：跳到命令开头
+
+ctrl+e：跳到命令结尾
+
+ctrl+键盘左键：向左跳一个单词
+
+ctrl+键盘右键：向右跳一个单词
+
+ctrl+l(或clear命令)：清屏
 
 ## 3 进阶
 
-### 3.1 vi编辑器
+### 3.1 vim编辑器
 
 vi/vim（visual interface），是Linux中最经典的文本编辑器，vim是vi的加强版
 
@@ -148,3 +172,180 @@ su  [-]  [用户名]
 * 只有文件、文件夹的所属用户或root用户可以修改
 * `chmod [-R]  权限  文件或文件夹`——修改文件权限（-R对文件夹内的全部内容应用同样的操作）
 * **rwx**：r表示4，w表示2，x表示1，所以修改权限可以表示为`chmod 777 test.txt`即将test.txt权限都打开
+
+**chown命令**
+
+* 只有root用户可以执行
+* `chown [-R] [用户]:[用户组] 需修改文件或文件夹`——修改文件、文件夹的所属用户和用户组
+
+## 4 实用
+
+### 4.1 程序安装和软链接
+
+操作系统安装软件包主要有两种：
+
+* 安装包自行安装(Windows系统:exe文件、msi文件；Mac系统：dmg文件、pkg文件)
+* 应用商店（windows系统：Microsoft Store；Mac系统：AppStore）
+
+| Linux发行版本 | 应用商店名称 | 安装包后缀 |
+| ------------- | ------------ | ---------- |
+| CentOS        | yum          | .rpm       |
+| Ubuntu        | apt          | .deb       |
+
+------
+
+```
+# 对于Linux常见命令安装
+# Ubuntu下载软件方法，需要root权限
+apt [-y] [install | remove | search] 软件名称
+
+# ubunut用命令行运行deb安装包
+sudo dpkg -i xxxx.deb
+# 卸载软件包
+sudo dpkg -r xxxx
+```
+
+
+
+**软链接**
+
+`ln -s 参数1(被链接的文件or文件夹)  参数2(链接目的地)`——作用等同快捷方式(-s symbolic link符号链接)
+
+例：`ln -s /etc/apt ~/apt`会把根目录的apt文件在home目录以apt命名显示
+
+### 4.2 IP地址和主机名
+
+**IP地址**
+
+每一台联网电脑都会有一个地址，用于和其他计算机进行通讯
+
+* IP地址主要有2个版本，v4和v6版本（v6很少用）
+* IPv4地址格式：`a.b.c.d`其中abcd表示0~255数字
+* **ifconfig**可以查看IP地址
+
+![image-20231229214147521](https://raw.githubusercontent.com/mulin33/ImageHost/main/blogImg/image-20231229214147521.png)
+
+**特殊IP**
+
+* **127.0.0.1**：用于指代本机，lo(loopback interface)本地回环接口
+* **0.0.0.0** ： ①可用于指代本机；②在端口绑定中用来确定绑定关系；③在一些IP地址限制中，表示所有IP，表示允许任意IP访问
+
+**主机**
+
+每一台电脑除了对外联络地址(IP地址以外)，也可以有另外一个名字——主机名
+
+* `hostname`——查询主机名
+* `hostnamectl set-hostname 主机名`——修改主机名
+
+**域名和DNS**
+
+IP并不方便人类的记忆和书写，与网络上的数字型 IP 地址相对应的字符型地址，就是**域名**
+
+**DNS：**当访问“www.fuyeor.com”时，首先由 **DNS（Domain Name System, DNS）**域名系统解析为 IP 地址，随后再访问 IP
+
+**域名解析**
+
+* 先看本机的记录（私人地址本）
+  * windows：C:\Windows\System32\drivers\etc\hosts
+  * Linux：/etc/hosts
+
+* 再联网去DNS服务器(如114.114.114.114,8.8.8.8等)询问
+
+### 4.3 网络相关命令
+
+**ping**
+
+`ping [-c num 检查的次数] ip或主机名`——检查特定的网络服务器是否是可联通状态
+
+**wget**
+
+`wget [-b 后台下载，日志写入到工作目录的wget-log文件] url`——非交互式的文件下载器，可以在命令行下载网络文件(如果要查看动态日志，可使用`tail -f wget-log`)
+
+**curl**
+
+`curl [-O 选项用于下载文件，保存文件] url` 用于下载文件、获取信息(类似浏览器，输入网址获得html源码)
+
+例：`curl cip.cc`获得公网IP属地
+
+### 4.4 端口
+
+**端口**
+
+计算机和外部交互的出入口，分为物理端口和虚拟端口
+
+* 物理端口：USB、HDMI、DP等
+* 虚拟端口：操作系统和外部交互的出入口(IP只能确定计算机，通过端口才能锁定要交互的程序)
+
+![端口图释](https://raw.githubusercontent.com/mulin33/ImageHost/main/blogImg/image-20231230203832215.png)
+
+**端口划分**
+
+Linux支持65535（2^16）个端口
+
+* 公认端口：1-1023，用于系统内置或知名软件绑定使用（如SSH服务22端口，HTTPS服务443端口）
+* 注册端口：1024-49151（48*2^10），用于松散绑定使用（用户自定义）
+* 动态端口：49152-65535，用于临时使用，多用于出口（比如A计算机接收计算机B返回的信息，临时开一个端口）
+
+**端口命令**
+
+* `nmap IP`（network mapper）查看指定IP的对外暴露端口(例：`namp 127.0.0.1`查看本机端口)
+* `netstat -anp`显示端口使用情况（在需要查看具体端口时，可仿照 `netstat -anp | grep 22`）
+
+### 4.5 进程
+
+进程指程序在操作系统内运行后被注册为系统内的一个进程，并拥有独立的进程ID（进程号）
+
+* `ps -ef` process status 查看进程信息，使用`ps -ef | grep 关键字`  筛选信息
+
+![Linux ps命令解释](https://raw.githubusercontent.com/mulin33/ImageHost/main/blogImg/image-20231230213819622.png)
+
+* kill [-9 强制关闭] 关闭指定进程号的进程 
+
+### 4.6 环境变量
+
+
+
+### 4.7 上传下载压缩工具
+
+
+
+## 5 编程
+
+###  5.1 gcc和gdb
+
+**gcc：**gcc和g++是c/c++的linux系统集成的编译器，源文件的后缀应为 .C/.cpp/.c++/.cc等（实际使用中，gcc编译C,g++编译C++）
+
+**gdb：**是 GNU 开发的一个Unix/Linux下强大的程序调试工具
+
+```
+# 下面命令同时安装编译器和调试器(gcc/g++/gdb)
+sudo apt install build-essential gdb
+
+# 检查是否安装成功
+gcc --version
+g++ --version
+gdb --version
+```
+
+### 5.2 cmake
+
+
+
+```
+sudo apt install cmake
+```
+
+作用：cmake生成可执行程序，也能生成动态库和静态库（库文件是为了第三方引用，使用库而不使用源代码：为了维护和保密）
+
+### VScode
+
+![image-20240103151532471](https://raw.githubusercontent.com/mulin33/ImageHost/main/blogImg/image-20240103151532471.png)
+
+## 6 把Linux(Ubuntu安装到移动硬盘)
+
+设备：Lenovo XiaoXinPro 14ITL 2021、移动硬盘(1T)、U盘
+
+
+
+<img src="https://raw.githubusercontent.com/mulin33/ImageHost/main/blogImg/image-20240116214749803.png" alt="image-20240116214749803" style="zoom:67%;" />
+
