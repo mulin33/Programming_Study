@@ -1,6 +1,17 @@
 # git 上传克隆流程
 
-## 1 git clone到本地
+## 1 配置git账户
+
+```
+# 查看git配置
+git config --list
+
+# 绑定github用户
+git config --global user.name "姓名"
+git config --global user.eamil "邮箱"
+```
+
+## 2 git clone到本地
 
 ```
 # 查看本地是否配置公私密钥
@@ -27,7 +38,7 @@ Port 443
 
 ![image-20240119133056223](https://raw.githubusercontent.com/mulin33/ImageHost/main/blogImg/image-20240119133056223.png)
 
-## 2 git上传到本地仓库
+## 3 git上传到本地仓库
 
 ![Lightbox](https://raw.githubusercontent.com/mulin33/ImageHost/main/blogImg/gitindex.png)
 
